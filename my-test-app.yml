@@ -1,0 +1,5 @@
+db:
+  addr: ":5442"
+  user: "my_user"
+  password: "1"
+  database: "my_user"

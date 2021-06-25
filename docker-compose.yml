@@ -1,0 +1,15 @@
+version: "2"
+
+services:
+  postgres:
+    privileged: true
+    image: registry.sima-land.ru:5043/postgrespro:10.4
+    ports:
+      - "5442:5432"
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_DATABASE: my_user
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: 1
+      POSTGRES_USE_RAM: 1
