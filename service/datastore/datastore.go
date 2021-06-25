@@ -1,8 +1,6 @@
 package datastore
 
 import (
-	"errors"
-	"fmt"
 	"my-test-app/models"
 
 	"github.com/go-pg/pg/v10"
@@ -21,7 +19,6 @@ func (u *UserRepository) GetUsers() (models.Users, error) {
 	users := make(models.Users, 0)
 	err := u.db.Model(&users).
 		Select()
-	fmt.Println(users)
 	return users, err
 }
 
@@ -33,18 +30,18 @@ func (u *UserRepository) GetUser(id int) (models.User, error) {
 	return user, err
 }
 
-func (u *UserRepository) PostUser(gotUser models.User) (models.User, error) {
+func (u *UserRepository) CreateUser(gotUser models.User) (models.User, error) {
 	_, err := u.db.Model(&gotUser).
 		Insert()
 	return gotUser, err
 }
 
-func (u *UserRepository) PutUser(gotUser models.User, id int) (models.User, error) {
+func (u *UserRepository) UpdateUser(gotUser models.User, id int) (models.User, error) {
 	res, err := u.db.Model(&gotUser).
 		Where("id = ?", id).
 		Update()
 	if res.RowsAffected() == 0 {
-		return models.User{}, errors.New("pg.ErrNoRows")
+		return models.User{}, pg.ErrNoRows
 	}
 
 	return gotUser, err
@@ -56,7 +53,7 @@ func (u *UserRepository) DeleteUser(id int) (models.User, error) {
 		Where("id = ?", id).
 		Delete()
 	if res.RowsAffected() == 0 {
-		return models.User{}, errors.New("pg.ErrNoRows")
+		return models.User{}, pg.ErrNoRows
 	}
 
 	return user, err

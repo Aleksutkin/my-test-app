@@ -57,14 +57,14 @@ func Start() {
 
 	getUsers := usecases.NewGetUsersUsecase(rep)
 	getUser := usecases.NewGetUserUsecase(rep)
-	postUser := usecases.NewPostUserUsecase(rep)
-	putUser := usecases.NewPutUserUsecase(rep)
+	createUser := usecases.NewCreateUserUsecase(rep)
+	updateUser := usecases.NewUpdateUserUsecase(rep)
 	deleteUser := usecases.NewDeleteUserUsecase(rep)
 
 	server.GET("/users", handlers.GetUsers(getUsers))
 	server.GET("/users/:id", handlers.GetUser(getUser))
-	server.POST("/users", handlers.PostUser(postUser))
-	server.PUT("/users/:id", handlers.PutUser(putUser))
+	server.POST("/users", handlers.CreateUser(createUser))
+	server.PUT("/users/:id", handlers.UpdateUser(updateUser))
 	server.DELETE("/users/:id", handlers.DeleteUser(deleteUser))
 
 	server.Logger.Fatal(server.Start(":8080"))
