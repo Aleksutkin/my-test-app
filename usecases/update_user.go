@@ -6,7 +6,7 @@ import (
 )
 
 type UpdateUserer interface {
-	UpdateUser(models.User, int) (models.User, error)
+	UpdateUser(models.User, int) (*models.User, error)
 }
 
 type UpdateUserUsecase struct {
@@ -17,7 +17,7 @@ func NewUpdateUserUsecase(r UpdateUserer) *UpdateUserUsecase {
 	return &UpdateUserUsecase{r}
 }
 
-func (p *UpdateUserUsecase) UpdateUser(gotUser forms.User, id int) (models.User, error) {
+func (p *UpdateUserUsecase) UpdateUser(gotUser forms.User, id int) (*models.User, error) {
 	usr := &models.User{
 		Id:    id,
 		Name:  gotUser.Name,

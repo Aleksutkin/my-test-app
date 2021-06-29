@@ -9,7 +9,7 @@ import (
 )
 
 type CreateUsersServicer interface {
-	CreateUser(forms.User) (models.User, error)
+	CreateUser(forms.User) (*models.User, error)
 }
 
 func CreateUser(pou CreateUsersServicer) func(echo.Context) error {

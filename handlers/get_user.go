@@ -9,17 +9,18 @@ import (
 )
 
 type getOneUserServicer interface {
-	GetOneUser(int) (models.User, error)
+	GetOneUser(int) (*models.User, error)
 }
 
 func GetUser(gou getOneUserServicer) func(echo.Context) error {
 	return func(context echo.Context) error {
 		id, err := strconv.Atoi(context.Param("id"))
 		if err != nil {
-			return context.JSON(http.StatusInternalServerError, err.Error())
+			return context.JSON(http.StatusNotFound, err.Error())
 		}
+
 		usr, err := gou.GetOneUser(id)
-		if err != nil {
+		if err != nil && usr.Id == 0 {
 			return context.JSON(http.StatusNotFound, err.Error())
 		}
 

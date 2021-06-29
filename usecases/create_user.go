@@ -6,7 +6,7 @@ import (
 )
 
 type createUserer interface {
-	CreateUser(models.User) (models.User, error)
+	CreateUser(models.User) (*models.User, error)
 }
 
 type CreateUserUsecase struct {
@@ -17,7 +17,7 @@ func NewCreateUserUsecase(r createUserer) *CreateUserUsecase {
 	return &CreateUserUsecase{r}
 }
 
-func (p *CreateUserUsecase) CreateUser(gotUser forms.User) (models.User, error) {
+func (p *CreateUserUsecase) CreateUser(gotUser forms.User) (*models.User, error) {
 	usr := &models.User{
 		Name:  gotUser.Name,
 		Email: gotUser.Email,

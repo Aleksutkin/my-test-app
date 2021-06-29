@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"log"
 	"my-test-app/forms"
 	"my-test-app/models"
 	"net/http"
@@ -11,14 +10,14 @@ import (
 )
 
 type UpdateUsersServicer interface {
-	UpdateUser(forms.User, int) (models.User, error)
+	UpdateUser(forms.User, int) (*models.User, error)
 }
 
 func UpdateUser(puu UpdateUsersServicer) func(echo.Context) error {
 	return func(context echo.Context) error {
 		id, err := strconv.Atoi(context.Param("id"))
 		if err != nil {
-			log.Fatal(err)
+			return context.JSON(http.StatusNotFound, err.Error())
 		}
 
 		u := new(forms.User)
@@ -30,8 +29,11 @@ func UpdateUser(puu UpdateUsersServicer) func(echo.Context) error {
 		}
 
 		usr, err := puu.UpdateUser(*u, id)
-		if err != nil {
+		if err != nil && usr == nil {
 			return context.JSON(http.StatusNotFound, err.Error())
+		}
+		if err != nil && usr != nil {
+			return context.JSON(http.StatusInternalServerError, err.Error())
 		}
 
 		return context.JSON(http.StatusOK, usr)

@@ -8,7 +8,7 @@ import (
 )
 
 type getAllUsersServicer interface {
-	GetAllUsers() (models.Users, error)
+	GetAllUsers() (*models.Users, error)
 }
 
 func GetUsers(gau getAllUsersServicer) func(echo.Context) error {
